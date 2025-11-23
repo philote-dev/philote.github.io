@@ -1139,71 +1139,125 @@
             updateQuantumInfo();
         }
 
-        // SCROLL TRANSITION EFFECT - SMOOTH AND FLUID WITH FREEZE
+        // SCROLL TRANSITION EFFECT - FULLSCREEN LOCK LIKE REFERENCE
         const header = document.querySelector('header');
         const aboutContent = document.getElementById('aboutContent');
         let isLocked = false;
+        let transitionStarted = false;
+        let animationProgress = 0;
+        let targetProgress = 0;
+        let animationFrame = null;
 
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const headerHeight = window.innerHeight;
-            const scrollPercentage = Math.min(scrollY / headerHeight, 1);
+        function animate() {
             const headerElement = document.querySelector('.header-content');
             
-            // Lock scroll during transition
-            if (scrollPercentage >= 0.35 && scrollPercentage < 0.65) {
-                if (!isLocked) {
-                    isLocked = true;
-                    // Smooth lock - prevent further scrolling
-                    window.scrollTo(0, headerHeight * 0.5);
-                }
-                
-                // Cross-fade zone
-                const transitionProgress = (scrollPercentage - 0.35) / 0.3;
-                headerElement.style.opacity = Math.max(0, 0.4 - transitionProgress * 0.4);
-                headerElement.style.transform = `scale(${0.85 - transitionProgress * 0.15})`;
-                aboutContent.style.opacity = transitionProgress;
-                aboutContent.classList.add('active');
-                header.classList.add('scrolled');
-                
-                // After transition completes, unlock
-                if (transitionProgress >= 0.99) {
-                    setTimeout(() => {
-                        isLocked = false;
-                    }, 300);
-                }
-            } else if (scrollPercentage < 0.35) {
-                isLocked = false;
-                // Initial fade out of name
-                const fadeOut = scrollPercentage / 0.35;
-                headerElement.style.opacity = 1 - fadeOut * 0.6;
-                headerElement.style.transform = `scale(${1 - fadeOut * 0.15})`;
+            // Smooth interpolation
+            animationProgress += (targetProgress - animationProgress) * 0.1;
+            
+            // Apply styles based on progress
+            if (animationProgress < 0.5) {
+                headerElement.style.opacity = 1 - animationProgress * 2;
+                headerElement.style.transform = `scale(${1 - animationProgress * 0.3})`;
                 aboutContent.style.opacity = 0;
                 aboutContent.classList.remove('active');
                 header.classList.remove('scrolled');
             } else {
+                const fadeProgress = (animationProgress - 0.5) * 2;
+                headerElement.style.opacity = Math.max(0, 1 - fadeProgress - 1);
+                headerElement.style.transform = `scale(${0.7 - fadeProgress * 0.1})`;
+                aboutContent.style.opacity = fadeProgress;
+                aboutContent.classList.add('active');
+                header.classList.add('scrolled');
+            }
+            
+            // Continue animation if in transition
+            if (isLocked && Math.abs(targetProgress - animationProgress) > 0.01) {
+                animationFrame = requestAnimationFrame(animate);
+            } else if (animationProgress >= 0.99) {
+                // Transition complete - unlock
                 isLocked = false;
-                // Fully show about
+                transitionStarted = false;
+            }
+        }
+
+        let lastScrollY = 0;
+        let scrollDelta = 0;
+
+        window.addEventListener('scroll', (e) => {
+            const scrollY = window.scrollY;
+            const headerHeight = window.innerHeight;
+            const scrollPercentage = scrollY / headerHeight;
+            
+            // Detect scroll direction
+            const direction = scrollY > lastScrollY ? 1 : -1;
+            lastScrollY = scrollY;
+            
+            // Start transition when reaching trigger point
+            if (scrollPercentage >= 0.25 && scrollPercentage <= 0.75 && !transitionStarted) {
+                isLocked = true;
+                transitionStarted = true;
+                targetProgress = direction > 0 ? 1 : 0;
+                
+                // Lock scroll position
+                window.scrollTo(0, headerHeight * 0.5);
+                
+                // Start animation
+                if (animationFrame) cancelAnimationFrame(animationFrame);
+                animate();
+                
+                return;
+            }
+            
+            // Force scroll position during lock
+            if (isLocked) {
+                window.scrollTo(0, headerHeight * 0.5);
+                return;
+            }
+            
+            // Normal scroll behavior outside transition
+            const headerElement = document.querySelector('.header-content');
+            if (scrollPercentage < 0.25) {
+                headerElement.style.opacity = 1 - scrollPercentage * 3;
+                headerElement.style.transform = `scale(${1 - scrollPercentage * 0.3})`;
+                aboutContent.style.opacity = 0;
+                aboutContent.classList.remove('active');
+                header.classList.remove('scrolled');
+            } else if (scrollPercentage > 0.75) {
                 headerElement.style.opacity = 0;
-                headerElement.style.transform = `scale(0.7)`;
+                headerElement.style.transform = `scale(0.6)`;
                 aboutContent.style.opacity = 1;
                 aboutContent.classList.add('active');
                 header.classList.add('scrolled');
             }
         });
 
-        // Prevent scroll during lock
+        // Completely block all scroll inputs during transition
         window.addEventListener('wheel', (e) => {
             if (isLocked) {
                 e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
             }
-        }, { passive: false });
+        }, { passive: false, capture: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (isLocked) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }
+        }, { passive: false, capture: true });
 
         window.addEventListener('keydown', (e) => {
-            if (isLocked && ['ArrowDown', 'ArrowUp', ' ', 'PageDown', 'PageUp'].includes(e.key)) {
+            if (isLocked && ['ArrowDown', 'ArrowUp', ' ', 'PageDown', 'PageUp', 'Home', 'End'].includes(e.key)) {
                 e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
             }
-        }, { passive: false });
+        }, { passive: false, capture: true });
     </script>
 </body>
 </html>
