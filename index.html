@@ -255,7 +255,7 @@
             pointer-events: none;
         }
 
-        /* QUANTUM SPECIFIC LAYOUT - FIX DISCOLORATION */
+        /* QUANTUM SPECIFIC LAYOUT */
         #quantum {
             display: block;
             padding-top: 0;
@@ -927,7 +927,7 @@
         </div>
         <div class="about-content" id="aboutContent">
             <h2>About Me</h2>
-            <p>I'm a Physics and Computer Science student at MIT passionate about the intersection of quantum computing and artificial intelligence. My research spans from quantum circuit optimization at CSAIL to neurosymbolic AI at MuLIP Labs. I competed at the 2023 FRC World Championship, founded Miami Vex Support to teach engineering to underrepresented communities, and I'm driven by creating tools that bridge complex mathematics with practical applications—from autonomous robotics to AI-powered design tools.</p>
+            <p>I'm a Physics and Computer Science student at MIT passionate about research in the intersection between quantum computing and artificial intelligence. My past work spans from quantum circuit optimization at CSAIL to neurosymbolic AI at MuLIP Labs. I've competed in robotics at the World Championship level for numerous years, founded Miami Vex Support to teach engineering to underrepresented communities, and I'm driven by creating tools/machines that bridge theoretical concepts with practical applications.</p>
         </div>
     </header>
 
@@ -940,7 +940,7 @@
         <div class="viz-content">
             <div class="viz-subtitle">Interactive Visualization</div>
             <h2 class="viz-title">Neural Network Dynamics</h2>
-            <p class="viz-description">Particle-driven data flows through connected layers. Hover to activate neurons, click and drag to inject pulses.</p>
+            <p class="viz-description">Vizualize how data flows through the connected layers by hovering over the nodes to activate neurons.</p>
         </div>
     </div>
 
@@ -953,7 +953,7 @@
         <div class="viz-content">
             <div class="viz-subtitle">Quantum Computing</div>
             <h2 class="viz-title">Bloch Sphere Simulator</h2>
-            <p class="viz-description">Explore quantum state evolution. Apply gates to manipulate superposition and observe probability amplitudes transform.</p>
+            <p class="viz-description">Explore quantum state evolution. Apply gates to manipulate superposition and observe probability amplitudes transform (state listed on the top-right).</p>
         </div>
         <div class="quantum-info" id="quantumInfo">
             |ψ⟩ = 1.00|0⟩ + 0.00|1⟩
@@ -973,13 +973,30 @@
     <section class="projects-section" id="projects">
         <h2>Featured Projects</h2>
             <div class="projects-grid">
-                <div class="project-card" onclick="openModal('frc')">
+                <div class="project-card" onclick="openModal('frcsim')">
                     <div class="project-image">
-                        <img src="https://via.placeholder.com/340x200/2e3440/88c0d0?text=FRC+Robotics" alt="FRC Robotics Suite">
+                        <img src="https://via.placeholder.com/340x200/2e3440/88c0d0?text=FRC+Robotics" alt="FRC Simulations">
                     </div>
                     <div class="project-content">
-                        <h3>FRC Robotics Suite</h3>
-                        <p>Comprehensive robotics system including physics-based simulation for driver practice, real-time autonomous object avoidance with camera-based path planning, AI object detection integration, and robot state machine architecture.</p>
+                        <h3>FRC Simulations</h3>
+                        <p>Comprehensive robotics system including physics-based simulation for driver practice, 
+                            real-time autonomous object avoidance with camera-based path planning, AI object detection integration, 
+                            and robot state machine architecture.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Json</span>
+                            <span class="tech-tag">AdvantageScope</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="openModal('frcai')">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/340x200/2e3440/88c0d0?text=FRC+Robotics" alt="FRC Vision AI">
+                    </div>
+                    <div class="project-content">
+                        <h3>Your Project Name</h3>
+                        <p>Boom Boom use vision to detect things ,boom boom</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Java</span>
                             <span class="tech-tag">Python</span>
@@ -996,7 +1013,8 @@
                     </div>
                     <div class="project-content">
                         <h3>NovelGym HITL Extension</h3>
-                        <p>Extended NovelGym framework with Human-in-the-Loop feedback mechanisms for reinforcement learning agents. Research conducted at MuLIP Labs, Tufts University (RSI 2024).</p>
+                        <p>Extended NovelGym framework with Human-in-the-Loop feedback mechanisms for reinforcement learning agents. 
+                            Research conducted at MuLIP Labs, Tufts University (RSI 2024).</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">RL</span>
@@ -1012,7 +1030,8 @@
                     </div>
                     <div class="project-content">
                         <h3>Rubik's Cube Solver</h3>
-                        <p>Custom implementation of Kociemba's algorithm with optimized phase-state decomposition and pruning tables. Features 3D-printed hardware achieving 21-41 second solve times.</p>
+                        <p>Custom implementation of Kociemba's algorithm with optimized phase-state decomposition and pruning tables. 
+                            Features 3D-printed hardware achieving 21-41 second solve times.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">Arduino</span>
@@ -1028,7 +1047,8 @@
                     </div>
                     <div class="project-content">
                         <h3>Miami Vex Support</h3>
-                        <p>Founded nonprofit teaching engineering fundamentals to underrepresented Miami communities across 5+ schools. Built full-stack website and managed 2+ summer robotics programs annually.</p>
+                        <p>Founded nonprofit teaching engineering fundamentals to underrepresented Miami communities across 5+ schools. 
+                            Built full-stack website and managed 2+ summer robotics programs annually.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Web Dev</span>
                             <span class="tech-tag">Education</span>
@@ -1044,7 +1064,8 @@
                     </div>
                     <div class="project-content">
                         <h3>AI Sketch Visualizer <span style="color: #ebcb8b; font-size: 0.75em;">[Active Development]</span></h3>
-                        <p>AI-driven engineering tool converting sketches to 3D models with manufacturability analysis. Uses CV for geometry extraction and AI for feasibility assessment.</p>
+                        <p>AI-driven engineering tool converting sketches to 3D models with manufacturability analysis. Uses CV for geometry 
+                            extraction and AI for feasibility assessment.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Computer Vision</span>
                             <span class="tech-tag">LLMs</span>
